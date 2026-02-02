@@ -1,112 +1,223 @@
 <!doctype html>
-<html lang="en">
+<html lang="az">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Income Manager - Minimal UI</title>
+    <title>Gəlir Meneceri - Addım-addım Panel</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="background">
+      <span class="glow glow-one"></span>
+      <span class="glow glow-two"></span>
+      <span class="glow glow-three"></span>
+    </div>
     <main class="app">
-      <header>
-        <h1>Income Manager</h1>
-        <p class="subtitle">Minimal client for register & login</p>
-      </header>
+      <nav class="stepper" aria-label="Addımlar">
+        <button class="step active" type="button" data-step="auth">1. Giriş</button>
+        <button class="step" type="button" data-step="session">2. Sessiya</button>
+        <button class="step" type="button" data-step="income">3. Gəlir</button>
+        <button class="step" type="button" data-step="strategy">4. Strategiya</button>
+        <button class="step" type="button" data-step="insight">5. Analitika</button>
+      </nav>
 
-      <section class="card">
-        <div class="row">
-          <label for="apiBase">API base URL</label>
-          <input id="apiBase" type="url" value="http://localhost:8080" />
+      <section class="page active" data-step="auth">
+        <header class="hero">
+          <div class="hero-content">
+            <span class="eyebrow">Addım 1 • Təhlükəsiz başlanğıc</span>
+            <h1>Gəlir Meneceri</h1>
+            <p class="subtitle">
+              Sarı-qara premium dizayn ilə login və qeydiyyat ekranı. İlk addımda hesabınızı
+              yaradın və panelə giriş edin.
+            </p>
+            <ul class="feature-list">
+              <li>Şifrələnmiş identifikasiya</li>
+              <li>Token əsaslı giriş</li>
+              <li>İki addımlı keçid axını</li>
+            </ul>
+          </div>
+          <div class="hero-metrics">
+            <article>
+              <h3>1 dəqiqəlik qeydiyyat</h3>
+              <p>Hesab yaratmaq üçün minimum məlumat tələb olunur.</p>
+            </article>
+            <article>
+              <h3>Əlavə təhlükəsizlik</h3>
+              <p>Giriş zamanı token avtomatik saxlanılır.</p>
+            </article>
+            <article>
+              <h3>Pro səviyyə</h3>
+              <p>Premium vizual və mikro-interaksiyalar.</p>
+            </article>
+          </div>
+        </header>
+
+        <section class="card spotlight">
+          <div class="row">
+            <label for="apiBase">API əsas URL</label>
+            <input id="apiBase" type="url" value="http://localhost:8080" />
+          </div>
+
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="register" type="button">Qeydiyyat</button>
+            <button class="tab" data-tab="login" type="button">Giriş</button>
+          </div>
+
+          <form id="register" class="panel active" autocomplete="off">
+            <div class="row">
+              <label for="fullName">Tam ad</label>
+              <input id="fullName" name="fullName" type="text" required />
+            </div>
+            <div class="row">
+              <label for="registerEmail">E-poçt</label>
+              <input id="registerEmail" name="email" type="email" required />
+            </div>
+            <div class="row">
+              <label for="registerPassword">Şifrə</label>
+              <input id="registerPassword" name="password" type="password" minlength="8" required />
+            </div>
+            <button class="primary" type="submit">Hesab yaradın</button>
+          </form>
+
+          <form id="login" class="panel" autocomplete="off">
+            <div class="row">
+              <label for="loginEmail">E-poçt</label>
+              <input id="loginEmail" name="email" type="email" required />
+            </div>
+            <div class="row">
+              <label for="loginPassword">Şifrə</label>
+              <input id="loginPassword" name="password" type="password" minlength="8" required />
+            </div>
+            <button class="primary" type="submit">Daxil olun</button>
+          </form>
+        </section>
+
+        <div class="page-actions">
+          <button class="primary next-step" type="button" data-next="session">Növbəti addım</button>
         </div>
-
-        <div class="tabs" role="tablist">
-          <button class="tab active" data-tab="register" type="button">Register</button>
-          <button class="tab" data-tab="login" type="button">Login</button>
-        </div>
-
-        <form id="register" class="panel active" autocomplete="off">
-          <div class="row">
-            <label for="fullName">Full name</label>
-            <input id="fullName" name="fullName" type="text" required />
-          </div>
-          <div class="row">
-            <label for="registerEmail">Email</label>
-            <input id="registerEmail" name="email" type="email" required />
-          </div>
-          <div class="row">
-            <label for="registerPassword">Password</label>
-            <input id="registerPassword" name="password" type="password" minlength="8" required />
-          </div>
-          <button class="primary" type="submit">Create account</button>
-        </form>
-
-        <form id="login" class="panel" autocomplete="off">
-          <div class="row">
-            <label for="loginEmail">Email</label>
-            <input id="loginEmail" name="email" type="email" required />
-          </div>
-          <div class="row">
-            <label for="loginPassword">Password</label>
-            <input id="loginPassword" name="password" type="password" minlength="8" required />
-          </div>
-          <button class="primary" type="submit">Sign in</button>
-        </form>
       </section>
 
-      <section class="card">
-        <div class="row row-inline">
-          <h2>Session</h2>
-          <button id="clearToken" type="button">Clear token</button>
-        </div>
-        <pre id="output" aria-live="polite">Waiting for action...</pre>
-      </section>
-
-      <section class="card hidden" id="incomeVerification">
-        <h2>Monthly income verification</h2>
-        <p class="subtitle">
-          Please enter your monthly income to unlock the rest of the dashboard.
-        </p>
-        <form id="incomeForm" autocomplete="off">
-          <div class="row">
-            <label for="monthlyIncome">Monthly income</label>
-            <input
-              id="monthlyIncome"
-              name="monthlyIncome"
-              type="number"
-              min="0"
-              step="0.01"
-              placeholder="e.g. 4500"
-              required
-            />
+      <section class="page" data-step="session">
+        <header class="page-header">
+          <span class="eyebrow">Addım 2 • Sessiya</span>
+          <h2>Sessiya monitoru</h2>
+          <p class="subtitle">Tokeni izləyin, çıxışı idarə edin və növbəti mərhələyə keçin.</p>
+        </header>
+        <section class="card">
+          <div class="row row-inline">
+            <h3>Aktiv sessiya</h3>
+            <button id="clearToken" type="button">Tokeni təmizlə</button>
           </div>
-          <button class="primary" type="submit">Save income</button>
-        </form>
+          <pre id="output" aria-live="polite">Gözləmə rejimi aktivdir...</pre>
+        </section>
+        <div class="page-actions">
+          <button class="ghost prev-step" type="button" data-prev="auth">Geri</button>
+          <button class="primary next-step" type="button" data-next="income">Növbəti addım</button>
+        </div>
       </section>
 
-      <section class="card hidden" id="incomeStrategy">
-        <h2>Divide monthly income into parts</h2>
-        <p class="subtitle">
-          Strategy formula (50/30/20): split your income into fixed essentials, strategic growth,
-          and personal motivation.
-        </p>
-        <div class="strategy-grid">
-          <article>
-            <h3>50% — Fixed and Essential Expenses</h3>
-            <p>Basic living needs and security.</p>
-            <p class="amount" id="fixedAmount">—</p>
-          </article>
-          <article>
-            <h3>30% — Strategic Growth and Reinvestment</h3>
-            <p>Business investment, education, equipment, marketing.</p>
-            <p class="amount" id="growthAmount">—</p>
-          </article>
-          <article>
-            <h3>20% — Personal Motivation and Wants</h3>
-            <p>Quality of life improvements and burnout prevention.</p>
-            <p class="amount" id="personalAmount">—</p>
-          </article>
+      <section class="page" data-step="income">
+        <header class="page-header">
+          <span class="eyebrow">Addım 3 • Gəlir</span>
+          <h2>Aylıq gəlirin təsdiqi</h2>
+          <p class="subtitle">Panelin növbəti hissəsini açmaq üçün aylıq gəlirinizi daxil edin.</p>
+        </header>
+        <section class="card" id="incomeVerification">
+          <form id="incomeForm" autocomplete="off">
+            <div class="row">
+              <label for="monthlyIncome">Aylıq gəlir</label>
+              <input
+                id="monthlyIncome"
+                name="monthlyIncome"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="məs: 4500"
+                required
+              />
+            </div>
+            <button class="primary" type="submit">Gəliri yadda saxla</button>
+          </form>
+        </section>
+        <div class="page-actions">
+          <button class="ghost prev-step" type="button" data-prev="session">Geri</button>
+          <button class="primary next-step" type="button" data-next="strategy">Növbəti addım</button>
         </div>
-        <p class="total" id="totalIncome">Monthly income: —</p>
+      </section>
+
+      <section class="page" data-step="strategy">
+        <header class="page-header">
+          <span class="eyebrow">Addım 4 • Strategiya</span>
+          <h2>Gəliri hissələrə bölün</h2>
+          <p class="subtitle">
+            Strategiya (50/30/20): məcburi xərclər, strateji inkişaf və şəxsi motivasiya balansı.
+          </p>
+        </header>
+        <section class="card" id="incomeStrategy">
+          <div class="strategy-grid">
+            <article>
+              <h3>50% — Məcburi və əsas xərclər</h3>
+              <p>Yaşayış ehtiyacları və təhlükəsizlik.</p>
+              <p class="amount" id="fixedAmount">—</p>
+            </article>
+            <article>
+              <h3>30% — Strateji inkişaf</h3>
+              <p>Təhsil, avadanlıq, marketinq və investisiya.</p>
+              <p class="amount" id="growthAmount">—</p>
+            </article>
+            <article>
+              <h3>20% — Şəxsi motivasiya</h3>
+              <p>Həyat keyfiyyəti və enerji balansı.</p>
+              <p class="amount" id="personalAmount">—</p>
+            </article>
+          </div>
+          <p class="total" id="totalIncome">Aylıq gəlir: —</p>
+        </section>
+        <div class="page-actions">
+          <button class="ghost prev-step" type="button" data-prev="income">Geri</button>
+          <button class="primary next-step" type="button" data-next="insight">Növbəti addım</button>
+        </div>
+      </section>
+
+      <section class="page" data-step="insight">
+        <header class="page-header">
+          <span class="eyebrow">Addım 5 • Analitika</span>
+          <h2>İdarəetmə mərkəzi</h2>
+          <p class="subtitle">
+            Paneliniz real vaxt məlumat axını, təhlükəsizlik statusu və prioritet nəticələr üçün
+            hazırlanıb.
+          </p>
+        </header>
+        <section class="insight">
+          <div class="insight-content">
+            <h3>Yüksək peşəkarlıq</h3>
+            <p>
+              Sarı-qara palitra fokus və prestij hissini gücləndirir. Mikromobil animasiyalar isə
+              diqqəti addım-addım düzgün bloklara yönləndirir.
+            </p>
+          </div>
+          <div class="insight-grid">
+            <article>
+              <span>01</span>
+              <h3>Analitik baxış</h3>
+              <p>Əldə etdiyiniz nəticələri gündəlik izləyin.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Operativ qərarlar</h3>
+              <p>Planlaşdırma blokları bir toxunuşla yenilənir.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Vizual performans</h3>
+              <p>Animasiya və mikro-effektlər diqqəti yönləndirir.</p>
+            </article>
+          </div>
+        </section>
+        <div class="page-actions">
+          <button class="ghost prev-step" type="button" data-prev="strategy">Geri</button>
+          <button class="primary" type="button">Paneli yekunlaşdır</button>
+        </div>
       </section>
     </main>
 
