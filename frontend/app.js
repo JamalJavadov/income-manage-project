@@ -12,6 +12,7 @@ const pages = document.querySelectorAll(".page");
 const steps = document.querySelectorAll(".step");
 const nextButtons = document.querySelectorAll(".next-step");
 const prevButtons = document.querySelectorAll(".prev-step");
+const views = document.querySelectorAll(".view");
 
 const TOKEN_KEY = "incomeManagerToken";
 const STORAGE_STEP_KEY = "incomeManagerStep";
@@ -30,10 +31,16 @@ const storeToken = (token) => {
   }
 };
 
+const setView = (viewName) => {
+  views.forEach((view) => {
+    view.classList.toggle("active", view.dataset.view === viewName);
+  });
+};
+
 const clearToken = () => {
   localStorage.removeItem(TOKEN_KEY);
   updateOutput("Token silindi. Yeni əməliyyat üçün hazırdır...");
-  goToStep("auth");
+  setView("auth");
 };
 
 const postJson = async (path, body) => {
@@ -106,6 +113,7 @@ const loadIncomeStrategy = async () => {
 };
 
 const loadIncomeStatus = async () => {
+  setView("app");
   const status = await fetchWithToken("/api/income/status");
   if (status.hasMonthlyIncome) {
     await loadIncomeStrategy();
@@ -127,6 +135,7 @@ const handleSubmit = (form, endpoint) => async (event) => {
     const data = await postJson(endpoint, payload);
     storeToken(data.token);
     updateOutput(formatJson(data));
+    setView("app");
     goToStep("session");
     await loadIncomeStatus();
   } catch (error) {
@@ -197,5 +206,6 @@ if (existingToken) {
     updateOutput(`Xəta: ${error.message}`);
   });
 } else {
-  goToStep(localStorage.getItem(STORAGE_STEP_KEY) || "auth");
+  setView("auth");
+  goToStep(localStorage.getItem(STORAGE_STEP_KEY) || "session");
 }
