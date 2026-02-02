@@ -3,15 +3,18 @@ const apiBaseInput = document.getElementById("apiBase");
 const clearTokenButton = document.getElementById("clearToken");
 const tabs = document.querySelectorAll(".tab");
 const panels = document.querySelectorAll(".panel");
-const incomeVerificationSection = document.getElementById("incomeVerification");
-const incomeStrategySection = document.getElementById("incomeStrategy");
 const incomeForm = document.getElementById("incomeForm");
 const fixedAmount = document.getElementById("fixedAmount");
 const growthAmount = document.getElementById("growthAmount");
 const personalAmount = document.getElementById("personalAmount");
 const totalIncome = document.getElementById("totalIncome");
+const pages = document.querySelectorAll(".page");
+const steps = document.querySelectorAll(".step");
+const nextButtons = document.querySelectorAll(".next-step");
+const prevButtons = document.querySelectorAll(".prev-step");
 
 const TOKEN_KEY = "incomeManagerToken";
+const STORAGE_STEP_KEY = "incomeManagerStep";
 
 const formatJson = (data) => JSON.stringify(data, null, 2);
 
@@ -29,8 +32,8 @@ const storeToken = (token) => {
 
 const clearToken = () => {
   localStorage.removeItem(TOKEN_KEY);
-  updateOutput("Token cleared. Ready for action...");
-  setIncomeVisibility({ showVerification: false, showStrategy: false });
+  updateOutput("Token silindi. Yeni əməliyyat üçün hazırdır...");
+  goToStep("auth");
 };
 
 const postJson = async (path, body) => {
@@ -54,7 +57,7 @@ const postJson = async (path, body) => {
 const fetchWithToken = async (path, options = {}) => {
   const token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
-    throw new Error("No token available. Please sign in.");
+    throw new Error("Token yoxdur. Zəhmət olmasa daxil olun.");
   }
   const response = await fetch(`${getApiBase()}${path}`, {
     ...options,
@@ -74,19 +77,24 @@ const fetchWithToken = async (path, options = {}) => {
   return responseBody;
 };
 
-const setIncomeVisibility = ({ showVerification, showStrategy }) => {
-  incomeVerificationSection.classList.toggle("hidden", !showVerification);
-  incomeStrategySection.classList.toggle("hidden", !showStrategy);
-};
-
 const formatCurrency = (value) => {
   if (value === null || value === undefined) {
     return "—";
   }
-  return Number(value).toLocaleString(undefined, {
+  return Number(value).toLocaleString("az-AZ", {
     style: "currency",
-    currency: "USD",
+    currency: "AZN",
   });
+};
+
+const goToStep = (stepName) => {
+  pages.forEach((page) => {
+    page.classList.toggle("active", page.dataset.step === stepName);
+  });
+  steps.forEach((step) => {
+    step.classList.toggle("active", step.dataset.step === stepName);
+  });
+  localStorage.setItem(STORAGE_STEP_KEY, stepName);
 };
 
 const loadIncomeStrategy = async () => {
@@ -94,16 +102,16 @@ const loadIncomeStrategy = async () => {
   fixedAmount.textContent = formatCurrency(data.fixedAndEssential);
   growthAmount.textContent = formatCurrency(data.growthAndReinvestment);
   personalAmount.textContent = formatCurrency(data.personalWants);
-  totalIncome.textContent = `Monthly income: ${formatCurrency(data.monthlyIncome)}`;
+  totalIncome.textContent = `Aylıq gəlir: ${formatCurrency(data.monthlyIncome)}`;
 };
 
 const loadIncomeStatus = async () => {
   const status = await fetchWithToken("/api/income/status");
   if (status.hasMonthlyIncome) {
-    setIncomeVisibility({ showVerification: false, showStrategy: true });
     await loadIncomeStrategy();
+    goToStep("strategy");
   } else {
-    setIncomeVisibility({ showVerification: true, showStrategy: false });
+    goToStep("income");
   }
 };
 
@@ -113,15 +121,16 @@ const handleSubmit = (form, endpoint) => async (event) => {
   const formData = new FormData(form);
   const payload = Object.fromEntries(formData.entries());
 
-  updateOutput("Request in progress...");
+  updateOutput("Sorğu icra olunur...");
 
   try {
     const data = await postJson(endpoint, payload);
     storeToken(data.token);
     updateOutput(formatJson(data));
+    goToStep("session");
     await loadIncomeStatus();
   } catch (error) {
-    updateOutput(`Error: ${error.message}`);
+    updateOutput(`Xəta: ${error.message}`);
   }
 };
 
@@ -149,30 +158,44 @@ tabs.forEach((tab) => {
   tab.addEventListener("click", () => activateTab(tab.dataset.tab));
 });
 
+steps.forEach((step) => {
+  step.addEventListener("click", () => goToStep(step.dataset.step));
+});
+
+nextButtons.forEach((button) => {
+  button.addEventListener("click", () => goToStep(button.dataset.next));
+});
+
+prevButtons.forEach((button) => {
+  button.addEventListener("click", () => goToStep(button.dataset.prev));
+});
+
 clearTokenButton.addEventListener("click", clearToken);
 
 incomeForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(incomeForm);
   const payload = Object.fromEntries(formData.entries());
-  updateOutput("Saving monthly income...");
+  updateOutput("Aylıq gəlir yadda saxlanır...");
   try {
     await fetchWithToken("/api/income", {
       method: "POST",
       body: JSON.stringify(payload),
     });
     await loadIncomeStatus();
-    updateOutput("Monthly income saved. Strategy unlocked.");
+    updateOutput("Aylıq gəlir yadda saxlandı. Strategiya aktivdir.");
     incomeForm.reset();
   } catch (error) {
-    updateOutput(`Error: ${error.message}`);
+    updateOutput(`Xəta: ${error.message}`);
   }
 });
 
 const existingToken = localStorage.getItem(TOKEN_KEY);
 if (existingToken) {
-  updateOutput(`Existing token found:\n${existingToken}`);
+  updateOutput(`Mövcud token tapıldı:\n${existingToken}`);
   loadIncomeStatus().catch((error) => {
-    updateOutput(`Error: ${error.message}`);
+    updateOutput(`Xəta: ${error.message}`);
   });
+} else {
+  goToStep(localStorage.getItem(STORAGE_STEP_KEY) || "auth");
 }
