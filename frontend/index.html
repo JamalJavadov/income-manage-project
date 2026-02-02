@@ -60,6 +60,54 @@
         </div>
         <pre id="output" aria-live="polite">Waiting for action...</pre>
       </section>
+
+      <section class="card hidden" id="incomeVerification">
+        <h2>Monthly income verification</h2>
+        <p class="subtitle">
+          Please enter your monthly income to unlock the rest of the dashboard.
+        </p>
+        <form id="incomeForm" autocomplete="off">
+          <div class="row">
+            <label for="monthlyIncome">Monthly income</label>
+            <input
+              id="monthlyIncome"
+              name="monthlyIncome"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="e.g. 4500"
+              required
+            />
+          </div>
+          <button class="primary" type="submit">Save income</button>
+        </form>
+      </section>
+
+      <section class="card hidden" id="incomeStrategy">
+        <h2>Divide monthly income into parts</h2>
+        <p class="subtitle">
+          Strategy formula (50/30/20): split your income into fixed essentials, strategic growth,
+          and personal motivation.
+        </p>
+        <div class="strategy-grid">
+          <article>
+            <h3>50% — Fixed and Essential Expenses</h3>
+            <p>Basic living needs and security.</p>
+            <p class="amount" id="fixedAmount">—</p>
+          </article>
+          <article>
+            <h3>30% — Strategic Growth and Reinvestment</h3>
+            <p>Business investment, education, equipment, marketing.</p>
+            <p class="amount" id="growthAmount">—</p>
+          </article>
+          <article>
+            <h3>20% — Personal Motivation and Wants</h3>
+            <p>Quality of life improvements and burnout prevention.</p>
+            <p class="amount" id="personalAmount">—</p>
+          </article>
+        </div>
+        <p class="total" id="totalIncome">Monthly income: —</p>
+      </section>
     </main>
 
     <script src="app.js"></script>
