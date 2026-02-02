@@ -12,28 +12,20 @@
       <span class="glow glow-two"></span>
       <span class="glow glow-three"></span>
     </div>
-    <main class="app">
-      <nav class="stepper" aria-label="Addımlar">
-        <button class="step active" type="button" data-step="auth">1. Giriş</button>
-        <button class="step" type="button" data-step="session">2. Sessiya</button>
-        <button class="step" type="button" data-step="income">3. Gəlir</button>
-        <button class="step" type="button" data-step="strategy">4. Strategiya</button>
-        <button class="step" type="button" data-step="insight">5. Analitika</button>
-      </nav>
-
-      <section class="page active" data-step="auth">
+    <main class="app-shell">
+      <section class="view auth-screen active" data-view="auth">
         <header class="hero">
           <div class="hero-content">
-            <span class="eyebrow">Addım 1 • Təhlükəsiz başlanğıc</span>
+            <span class="eyebrow">Təhlükəsiz başlanğıc</span>
             <h1>Gəlir Meneceri</h1>
             <p class="subtitle">
-              Sarı-qara premium dizayn ilə login və qeydiyyat ekranı. İlk addımda hesabınızı
-              yaradın və panelə giriş edin.
+              Premium login və qeydiyyat ekranı ilə başlayın. Uğurla daxil olduqdan sonra
+              idarəetmə paneli açılır və addım-addım axına keçirsiniz.
             </p>
             <ul class="feature-list">
               <li>Şifrələnmiş identifikasiya</li>
               <li>Token əsaslı giriş</li>
-              <li>İki addımlı keçid axını</li>
+              <li>Əsl məhsul axınına uyğun səhifə keçidi</li>
             </ul>
           </div>
           <div class="hero-metrics">
@@ -52,7 +44,7 @@
           </div>
         </header>
 
-        <section class="card spotlight">
+        <section class="card spotlight auth-card">
           <div class="row">
             <label for="apiBase">API əsas URL</label>
             <input id="apiBase" type="url" value="http://localhost:8080" />
@@ -91,133 +83,137 @@
             <button class="primary" type="submit">Daxil olun</button>
           </form>
         </section>
-
-        <div class="page-actions">
-          <button class="primary next-step" type="button" data-next="session">Növbəti addım</button>
-        </div>
       </section>
 
-      <section class="page" data-step="session">
-        <header class="page-header">
-          <span class="eyebrow">Addım 2 • Sessiya</span>
-          <h2>Sessiya monitoru</h2>
-          <p class="subtitle">Tokeni izləyin, çıxışı idarə edin və növbəti mərhələyə keçin.</p>
-        </header>
-        <section class="card">
-          <div class="row row-inline">
-            <h3>Aktiv sessiya</h3>
-            <button id="clearToken" type="button">Tokeni təmizlə</button>
-          </div>
-          <pre id="output" aria-live="polite">Gözləmə rejimi aktivdir...</pre>
-        </section>
-        <div class="page-actions">
-          <button class="ghost prev-step" type="button" data-prev="auth">Geri</button>
-          <button class="primary next-step" type="button" data-next="income">Növbəti addım</button>
-        </div>
-      </section>
+      <section class="view app-screen" data-view="app">
+        <nav class="stepper" aria-label="Addımlar">
+          <button class="step" type="button" data-step="session">1. Sessiya</button>
+          <button class="step" type="button" data-step="income">2. Gəlir</button>
+          <button class="step" type="button" data-step="strategy">3. Strategiya</button>
+          <button class="step" type="button" data-step="insight">4. Analitika</button>
+        </nav>
 
-      <section class="page" data-step="income">
-        <header class="page-header">
-          <span class="eyebrow">Addım 3 • Gəlir</span>
-          <h2>Aylıq gəlirin təsdiqi</h2>
-          <p class="subtitle">Panelin növbəti hissəsini açmaq üçün aylıq gəlirinizi daxil edin.</p>
-        </header>
-        <section class="card" id="incomeVerification">
-          <form id="incomeForm" autocomplete="off">
-            <div class="row">
-              <label for="monthlyIncome">Aylıq gəlir</label>
-              <input
-                id="monthlyIncome"
-                name="monthlyIncome"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="məs: 4500"
-                required
-              />
+        <section class="page" data-step="session">
+          <header class="page-header">
+            <span class="eyebrow">Addım 1 • Sessiya</span>
+            <h2>Sessiya monitoru</h2>
+            <p class="subtitle">Tokeni izləyin, çıxışı idarə edin və növbəti mərhələyə keçin.</p>
+          </header>
+          <section class="card">
+            <div class="row row-inline">
+              <h3>Aktiv sessiya</h3>
+              <button id="clearToken" type="button">Tokeni təmizlə</button>
             </div>
-            <button class="primary" type="submit">Gəliri yadda saxla</button>
-          </form>
-        </section>
-        <div class="page-actions">
-          <button class="ghost prev-step" type="button" data-prev="session">Geri</button>
-          <button class="primary next-step" type="button" data-next="strategy">Növbəti addım</button>
-        </div>
-      </section>
-
-      <section class="page" data-step="strategy">
-        <header class="page-header">
-          <span class="eyebrow">Addım 4 • Strategiya</span>
-          <h2>Gəliri hissələrə bölün</h2>
-          <p class="subtitle">
-            Strategiya (50/30/20): məcburi xərclər, strateji inkişaf və şəxsi motivasiya balansı.
-          </p>
-        </header>
-        <section class="card" id="incomeStrategy">
-          <div class="strategy-grid">
-            <article>
-              <h3>50% — Məcburi və əsas xərclər</h3>
-              <p>Yaşayış ehtiyacları və təhlükəsizlik.</p>
-              <p class="amount" id="fixedAmount">—</p>
-            </article>
-            <article>
-              <h3>30% — Strateji inkişaf</h3>
-              <p>Təhsil, avadanlıq, marketinq və investisiya.</p>
-              <p class="amount" id="growthAmount">—</p>
-            </article>
-            <article>
-              <h3>20% — Şəxsi motivasiya</h3>
-              <p>Həyat keyfiyyəti və enerji balansı.</p>
-              <p class="amount" id="personalAmount">—</p>
-            </article>
+            <pre id="output" aria-live="polite">Gözləmə rejimi aktivdir...</pre>
+          </section>
+          <div class="page-actions">
+            <button class="primary next-step" type="button" data-next="income">Növbəti addım</button>
           </div>
-          <p class="total" id="totalIncome">Aylıq gəlir: —</p>
         </section>
-        <div class="page-actions">
-          <button class="ghost prev-step" type="button" data-prev="income">Geri</button>
-          <button class="primary next-step" type="button" data-next="insight">Növbəti addım</button>
-        </div>
-      </section>
 
-      <section class="page" data-step="insight">
-        <header class="page-header">
-          <span class="eyebrow">Addım 5 • Analitika</span>
-          <h2>İdarəetmə mərkəzi</h2>
-          <p class="subtitle">
-            Paneliniz real vaxt məlumat axını, təhlükəsizlik statusu və prioritet nəticələr üçün
-            hazırlanıb.
-          </p>
-        </header>
-        <section class="insight">
-          <div class="insight-content">
-            <h3>Yüksək peşəkarlıq</h3>
-            <p>
-              Sarı-qara palitra fokus və prestij hissini gücləndirir. Mikromobil animasiyalar isə
-              diqqəti addım-addım düzgün bloklara yönləndirir.
+        <section class="page" data-step="income">
+          <header class="page-header">
+            <span class="eyebrow">Addım 2 • Gəlir</span>
+            <h2>Aylıq gəlirin təsdiqi</h2>
+            <p class="subtitle">Panelin növbəti hissəsini açmaq üçün aylıq gəlirinizi daxil edin.</p>
+          </header>
+          <section class="card" id="incomeVerification">
+            <form id="incomeForm" autocomplete="off">
+              <div class="row">
+                <label for="monthlyIncome">Aylıq gəlir</label>
+                <input
+                  id="monthlyIncome"
+                  name="monthlyIncome"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="məs: 4500"
+                  required
+                />
+              </div>
+              <button class="primary" type="submit">Gəliri yadda saxla</button>
+            </form>
+          </section>
+          <div class="page-actions">
+            <button class="ghost prev-step" type="button" data-prev="session">Geri</button>
+            <button class="primary next-step" type="button" data-next="strategy">Növbəti addım</button>
+          </div>
+        </section>
+
+        <section class="page" data-step="strategy">
+          <header class="page-header">
+            <span class="eyebrow">Addım 3 • Strategiya</span>
+            <h2>Gəliri hissələrə bölün</h2>
+            <p class="subtitle">
+              Strategiya (50/30/20): məcburi xərclər, strateji inkişaf və şəxsi motivasiya balansı.
             </p>
-          </div>
-          <div class="insight-grid">
-            <article>
-              <span>01</span>
-              <h3>Analitik baxış</h3>
-              <p>Əldə etdiyiniz nəticələri gündəlik izləyin.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Operativ qərarlar</h3>
-              <p>Planlaşdırma blokları bir toxunuşla yenilənir.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Vizual performans</h3>
-              <p>Animasiya və mikro-effektlər diqqəti yönləndirir.</p>
-            </article>
+          </header>
+          <section class="card" id="incomeStrategy">
+            <div class="strategy-grid">
+              <article>
+                <h3>50% — Məcburi və əsas xərclər</h3>
+                <p>Yaşayış ehtiyacları və təhlükəsizlik.</p>
+                <p class="amount" id="fixedAmount">—</p>
+              </article>
+              <article>
+                <h3>30% — Strateji inkişaf</h3>
+                <p>Təhsil, avadanlıq, marketinq və investisiya.</p>
+                <p class="amount" id="growthAmount">—</p>
+              </article>
+              <article>
+                <h3>20% — Şəxsi motivasiya</h3>
+                <p>Həyat keyfiyyəti və enerji balansı.</p>
+                <p class="amount" id="personalAmount">—</p>
+              </article>
+            </div>
+            <p class="total" id="totalIncome">Aylıq gəlir: —</p>
+          </section>
+          <div class="page-actions">
+            <button class="ghost prev-step" type="button" data-prev="income">Geri</button>
+            <button class="primary next-step" type="button" data-next="insight">Növbəti addım</button>
           </div>
         </section>
-        <div class="page-actions">
-          <button class="ghost prev-step" type="button" data-prev="strategy">Geri</button>
-          <button class="primary" type="button">Paneli yekunlaşdır</button>
-        </div>
+
+        <section class="page" data-step="insight">
+          <header class="page-header">
+            <span class="eyebrow">Addım 4 • Analitika</span>
+            <h2>İdarəetmə mərkəzi</h2>
+            <p class="subtitle">
+              Paneliniz real vaxt məlumat axını, təhlükəsizlik statusu və prioritet nəticələr üçün
+              hazırlanıb.
+            </p>
+          </header>
+          <section class="insight">
+            <div class="insight-content">
+              <h3>Yüksək peşəkarlıq</h3>
+              <p>
+                Sarı-qara palitra fokus və prestij hissini gücləndirir. Mikromobil animasiyalar isə
+                diqqəti addım-addım düzgün bloklara yönləndirir.
+              </p>
+            </div>
+            <div class="insight-grid">
+              <article>
+                <span>01</span>
+                <h3>Analitik baxış</h3>
+                <p>Əldə etdiyiniz nəticələri gündəlik izləyin.</p>
+              </article>
+              <article>
+                <span>02</span>
+                <h3>Operativ qərarlar</h3>
+                <p>Planlaşdırma blokları bir toxunuşla yenilənir.</p>
+              </article>
+              <article>
+                <span>03</span>
+                <h3>Vizual performans</h3>
+                <p>Animasiya və mikro-effektlər diqqəti yönləndirir.</p>
+              </article>
+            </div>
+          </section>
+          <div class="page-actions">
+            <button class="ghost prev-step" type="button" data-prev="strategy">Geri</button>
+            <button class="primary" type="button">Paneli yekunlaşdır</button>
+          </div>
+        </section>
       </section>
     </main>
 

@@ -49,13 +49,36 @@ body {
   animation-delay: 3s;
 }
 
-.app {
+.app-shell {
   position: relative;
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
   padding: 60px 24px 90px;
   display: grid;
+  gap: 28px;
+}
+
+.view {
+  display: none;
+  gap: 28px;
+}
+
+.view.active {
+  display: grid;
+}
+
+.auth-screen {
+  align-items: stretch;
+}
+
+.auth-card {
+  max-width: 520px;
+  width: 100%;
+  justify-self: center;
+}
+
+.app-screen {
   gap: 28px;
 }
 
@@ -430,6 +453,15 @@ pre {
 }
 
 @media (min-width: 900px) {
+  .auth-screen {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    align-items: center;
+  }
+
+  .auth-card {
+    justify-self: stretch;
+  }
+
   .hero {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     align-items: center;
