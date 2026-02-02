@@ -1,6 +1,6 @@
-package com.incomemanager.security;
+package com.incomemanager.security.service;
 
-import com.incomemanager.user.UserRepository;
+import com.incomemanager.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.incomemanager.security;
+package com.incomemanager.security.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

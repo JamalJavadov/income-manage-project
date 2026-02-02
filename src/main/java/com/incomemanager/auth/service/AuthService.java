@@ -1,26 +1,27 @@
-package com.incomemanager.auth;
+package com.incomemanager.auth.service;
 
-import com.incomemanager.security.JwtService;
-import com.incomemanager.user.AppUser;
-import com.incomemanager.user.Role;
-import com.incomemanager.user.UserRepository;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.incomemanager.auth.dto.AuthResponse;
+import com.incomemanager.auth.dto.LoginRequest;
+import com.incomemanager.auth.dto.RegisterRequest;
+import com.incomemanager.security.service.JwtService;
+import com.incomemanager.user.entity.AppUser;
+import com.incomemanager.user.entity.Role;
+import com.incomemanager.user.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+import java.util.Optional;
+
+@Service
+public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public AuthController(
+    public AuthService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
@@ -32,10 +33,9 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public Optional<AuthResponse> register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return Optional.empty();
         }
 
         AppUser user = AppUser.builder()
@@ -47,31 +47,27 @@ public class AuthController {
 
         userRepository.save(user);
 
-        String token = jwtService.generateToken(user.getEmail());
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(AuthResponse.builder()
-                        .token(token)
-                        .tokenType("Bearer")
-                        .email(user.getEmail())
-                        .fullName(user.getFullName())
-                        .build());
+        return Optional.of(buildAuthResponse(user));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail().toLowerCase(), request.getPassword())
         );
 
         AppUser user = userRepository.findByEmail(request.getEmail().toLowerCase())
                 .orElseThrow();
-        String token = jwtService.generateToken(user.getEmail());
 
-        return ResponseEntity.ok(AuthResponse.builder()
+        return buildAuthResponse(user);
+    }
+
+    private AuthResponse buildAuthResponse(AppUser user) {
+        String token = jwtService.generateToken(user.getEmail());
+        return AuthResponse.builder()
                 .token(token)
                 .tokenType("Bearer")
                 .email(user.getEmail())
                 .fullName(user.getFullName())
-                .build());
+                .build();
     }
 }

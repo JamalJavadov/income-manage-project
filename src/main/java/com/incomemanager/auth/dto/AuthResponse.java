@@ -1,4 +1,4 @@
-package com.incomemanager.auth;
+package com.incomemanager.auth.dto;
 
 import lombok.Builder;
 import lombok.Data;

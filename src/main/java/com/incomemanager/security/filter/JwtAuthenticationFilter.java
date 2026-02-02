@@ -1,5 +1,6 @@
-package com.incomemanager.security;
+package com.incomemanager.security.filter;
 
+import com.incomemanager.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

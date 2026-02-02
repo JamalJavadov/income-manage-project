@@ -1,4 +1,4 @@
-package com.incomemanager.user;
+package com.incomemanager.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
