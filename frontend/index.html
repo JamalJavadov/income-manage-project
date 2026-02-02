@@ -1,222 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="az">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gəlir Meneceri - Addım-addım Panel</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="background">
-      <span class="glow glow-one"></span>
-      <span class="glow glow-two"></span>
-      <span class="glow glow-three"></span>
-    </div>
-    <main class="app-shell">
-      <section class="view auth-screen active" data-view="auth">
-        <header class="hero">
-          <div class="hero-content">
-            <span class="eyebrow">Təhlükəsiz başlanğıc</span>
-            <h1>Gəlir Meneceri</h1>
-            <p class="subtitle">
-              Premium login və qeydiyyat ekranı ilə başlayın. Uğurla daxil olduqdan sonra
-              idarəetmə paneli açılır və addım-addım axına keçirsiniz.
-            </p>
-            <ul class="feature-list">
-              <li>Şifrələnmiş identifikasiya</li>
-              <li>Token əsaslı giriş</li>
-              <li>Əsl məhsul axınına uyğun səhifə keçidi</li>
-            </ul>
-          </div>
-          <div class="hero-metrics">
-            <article>
-              <h3>1 dəqiqəlik qeydiyyat</h3>
-              <p>Hesab yaratmaq üçün minimum məlumat tələb olunur.</p>
-            </article>
-            <article>
-              <h3>Əlavə təhlükəsizlik</h3>
-              <p>Giriş zamanı token avtomatik saxlanılır.</p>
-            </article>
-            <article>
-              <h3>Pro səviyyə</h3>
-              <p>Premium vizual və mikro-interaksiyalar.</p>
-            </article>
-          </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş | Maliyyə Meneceri</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <header class="auth-header">
+            <div class="logo">Maliyyə Meneceri</div>
+            <p>Hesabınıza daxil olun</p>
         </header>
 
-        <section class="card spotlight auth-card">
-          <div class="row">
-            <label for="apiBase">API əsas URL</label>
-            <input id="apiBase" type="url" value="http://localhost:8080" />
-          </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchAuth('login')">Giriş</button>
+            <button class="tab-btn" onclick="switchAuth('register')">Qeydiyyat</button>
+        </div>
 
-          <div class="tabs" role="tablist">
-            <button class="tab active" data-tab="register" type="button">Qeydiyyat</button>
-            <button class="tab" data-tab="login" type="button">Giriş</button>
-          </div>
+        <form id="loginForm" class="auth-form active">
+            <div class="input-group">
+                <label>E-poçt ünvanı</label>
+                <input type="email" name="email" required placeholder="nümunə@mail.com">
+            </div>
+            <div class="input-group">
+                <label>Şifrə</label>
+                <input type="password" name="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-primary">Daxil ol</button>
+        </form>
 
-          <form id="register" class="panel active" autocomplete="off">
-            <div class="row">
-              <label for="fullName">Tam ad</label>
-              <input id="fullName" name="fullName" type="text" required />
+        <form id="registerForm" class="auth-form">
+            <div class="input-group">
+                <label>Tam Ad</label>
+                <input type="text" name="fullName" required placeholder="Ad Soyad">
             </div>
-            <div class="row">
-              <label for="registerEmail">E-poçt</label>
-              <input id="registerEmail" name="email" type="email" required />
+            <div class="input-group">
+                <label>E-poçt ünvanı</label>
+                <input type="email" name="email" required placeholder="nümunə@mail.com">
             </div>
-            <div class="row">
-              <label for="registerPassword">Şifrə</label>
-              <input id="registerPassword" name="password" type="password" minlength="8" required />
+            <div class="input-group">
+                <label>Şifrə</label>
+                <input type="password" name="password" required placeholder="Min. 8 simvol">
             </div>
-            <button class="primary" type="submit">Hesab yaradın</button>
-          </form>
+            <button type="submit" class="btn-primary">Hesab Yarat</button>
+        </form>
 
-          <form id="login" class="panel" autocomplete="off">
-            <div class="row">
-              <label for="loginEmail">E-poçt</label>
-              <input id="loginEmail" name="email" type="email" required />
-            </div>
-            <div class="row">
-              <label for="loginPassword">Şifrə</label>
-              <input id="loginPassword" name="password" type="password" minlength="8" required />
-            </div>
-            <button class="primary" type="submit">Daxil olun</button>
-          </form>
-        </section>
-      </section>
-
-      <section class="view app-screen" data-view="app">
-        <nav class="stepper" aria-label="Addımlar">
-          <button class="step" type="button" data-step="session">1. Sessiya</button>
-          <button class="step" type="button" data-step="income">2. Gəlir</button>
-          <button class="step" type="button" data-step="strategy">3. Strategiya</button>
-          <button class="step" type="button" data-step="insight">4. Analitika</button>
-        </nav>
-
-        <section class="page" data-step="session">
-          <header class="page-header">
-            <span class="eyebrow">Addım 1 • Sessiya</span>
-            <h2>Sessiya monitoru</h2>
-            <p class="subtitle">Tokeni izləyin, çıxışı idarə edin və növbəti mərhələyə keçin.</p>
-          </header>
-          <section class="card">
-            <div class="row row-inline">
-              <h3>Aktiv sessiya</h3>
-              <button id="clearToken" type="button">Tokeni təmizlə</button>
-            </div>
-            <pre id="output" aria-live="polite">Gözləmə rejimi aktivdir...</pre>
-          </section>
-          <div class="page-actions">
-            <button class="primary next-step" type="button" data-next="income">Növbəti addım</button>
-          </div>
-        </section>
-
-        <section class="page" data-step="income">
-          <header class="page-header">
-            <span class="eyebrow">Addım 2 • Gəlir</span>
-            <h2>Aylıq gəlirin təsdiqi</h2>
-            <p class="subtitle">Panelin növbəti hissəsini açmaq üçün aylıq gəlirinizi daxil edin.</p>
-          </header>
-          <section class="card" id="incomeVerification">
-            <form id="incomeForm" autocomplete="off">
-              <div class="row">
-                <label for="monthlyIncome">Aylıq gəlir</label>
-                <input
-                  id="monthlyIncome"
-                  name="monthlyIncome"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="məs: 4500"
-                  required
-                />
-              </div>
-              <button class="primary" type="submit">Gəliri yadda saxla</button>
-            </form>
-          </section>
-          <div class="page-actions">
-            <button class="ghost prev-step" type="button" data-prev="session">Geri</button>
-            <button class="primary next-step" type="button" data-next="strategy">Növbəti addım</button>
-          </div>
-        </section>
-
-        <section class="page" data-step="strategy">
-          <header class="page-header">
-            <span class="eyebrow">Addım 3 • Strategiya</span>
-            <h2>Gəliri hissələrə bölün</h2>
-            <p class="subtitle">
-              Strategiya (50/30/20): məcburi xərclər, strateji inkişaf və şəxsi motivasiya balansı.
-            </p>
-          </header>
-          <section class="card" id="incomeStrategy">
-            <div class="strategy-grid">
-              <article>
-                <h3>50% — Məcburi və əsas xərclər</h3>
-                <p>Yaşayış ehtiyacları və təhlükəsizlik.</p>
-                <p class="amount" id="fixedAmount">—</p>
-              </article>
-              <article>
-                <h3>30% — Strateji inkişaf</h3>
-                <p>Təhsil, avadanlıq, marketinq və investisiya.</p>
-                <p class="amount" id="growthAmount">—</p>
-              </article>
-              <article>
-                <h3>20% — Şəxsi motivasiya</h3>
-                <p>Həyat keyfiyyəti və enerji balansı.</p>
-                <p class="amount" id="personalAmount">—</p>
-              </article>
-            </div>
-            <p class="total" id="totalIncome">Aylıq gəlir: —</p>
-          </section>
-          <div class="page-actions">
-            <button class="ghost prev-step" type="button" data-prev="income">Geri</button>
-            <button class="primary next-step" type="button" data-next="insight">Növbəti addım</button>
-          </div>
-        </section>
-
-        <section class="page" data-step="insight">
-          <header class="page-header">
-            <span class="eyebrow">Addım 4 • Analitika</span>
-            <h2>İdarəetmə mərkəzi</h2>
-            <p class="subtitle">
-              Paneliniz real vaxt məlumat axını, təhlükəsizlik statusu və prioritet nəticələr üçün
-              hazırlanıb.
-            </p>
-          </header>
-          <section class="insight">
-            <div class="insight-content">
-              <h3>Yüksək peşəkarlıq</h3>
-              <p>
-                Sarı-qara palitra fokus və prestij hissini gücləndirir. Mikromobil animasiyalar isə
-                diqqəti addım-addım düzgün bloklara yönləndirir.
-              </p>
-            </div>
-            <div class="insight-grid">
-              <article>
-                <span>01</span>
-                <h3>Analitik baxış</h3>
-                <p>Əldə etdiyiniz nəticələri gündəlik izləyin.</p>
-              </article>
-              <article>
-                <span>02</span>
-                <h3>Operativ qərarlar</h3>
-                <p>Planlaşdırma blokları bir toxunuşla yenilənir.</p>
-              </article>
-              <article>
-                <span>03</span>
-                <h3>Vizual performans</h3>
-                <p>Animasiya və mikro-effektlər diqqəti yönləndirir.</p>
-              </article>
-            </div>
-          </section>
-          <div class="page-actions">
-            <button class="ghost prev-step" type="button" data-prev="strategy">Geri</button>
-            <button class="primary" type="button">Paneli yekunlaşdır</button>
-          </div>
-        </section>
-      </section>
-    </main>
+        <div id="messageBox" class="message hidden"></div>
+    </div>
 
     <script src="app.js"></script>
-  </body>
+    <script>
+        // Redirect if already logged in
+        if(localStorage.getItem('incomeManagerToken')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
 </html>

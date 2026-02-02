@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İdarə Paneli | Maliyyə Meneceri</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Maliyyə Meneceri</div>
+            <div class="user-actions">
+                <span id="userNameDisplay">İstifadəçi</span>
+                <button onclick="logout()" class="btn-text">Çıxış</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div id="loader" class="loader">Yüklənir...</div>
+
+        <section id="incomeSection" class="view-section hidden">
+            <div class="card center-card">
+                <h2>Gəlir Təyini</h2>
+                <p class="subtitle">Büdcə planlamasına başlamaq üçün aylıq gəlirinizi daxil edin.</p>
+                
+                <form id="incomeForm">
+                    <div class="input-group">
+                        <label>Aylıq Gəlir (AZN)</label>
+                        <input type="number" name="monthlyIncome" step="0.01" min="1" required placeholder="0.00">
+                    </div>
+                    <button type="submit" class="btn-primary">Hesabla</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="strategySection" class="view-section hidden">
+            <header class="section-header">
+                <h2>Büdcə Planı</h2>
+                <button onclick="resetIncome()" class="btn-secondary">Gəliri Yenilə</button>
+            </header>
+
+            <div class="strategy-cards">
+                <div class="stat-card needs">
+                    <div class="icon">🏠</div>
+                    <h3>Zəruri Xərclər (50%)</h3>
+                    <div class="amount" id="fixedAmount">₼0.00</div>
+                    <p>Kirayə, kommunal, qida və nəqliyyat</p>
+                </div>
+
+                <div class="stat-card growth">
+                    <div class="icon">📈</div>
+                    <h3>İnkişaf və İstəklər (30%)</h3>
+                    <div class="amount" id="growthAmount">₼0.00</div>
+                    <p>Təhsil, əyləncə və alış-veriş</p>
+                </div>
+
+                <div class="stat-card savings">
+                    <div class="icon">🛡️</div>
+                    <h3>Yığım və İnvestisiya (20%)</h3>
+                    <div class="amount" id="personalAmount">₼0.00</div>
+                    <p>Gələcək təminatı və borclar</p>
+                </div>
+            </div>
+
+            <div class="total-bar">
+                <span>Ümumi Aylıq Gəlir:</span>
+                <strong id="totalIncomeDisplay">₼0.00</strong>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html>
