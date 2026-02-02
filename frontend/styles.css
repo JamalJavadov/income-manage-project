@@ -45,6 +45,10 @@ h1 {
   gap: 16px;
 }
 
+.hidden {
+  display: none;
+}
+
 .row {
   display: grid;
   gap: 8px;
@@ -126,4 +130,33 @@ pre {
   border-radius: 12px;
   min-height: 120px;
   overflow-x: auto;
+}
+
+.strategy-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.strategy-grid article {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.amount {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+
+.total {
+  margin: 0;
+  font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .strategy-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

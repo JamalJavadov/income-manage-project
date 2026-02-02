@@ -3,6 +3,7 @@ package com.incomemanager.user.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -29,6 +30,9 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal monthlyIncome;
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
