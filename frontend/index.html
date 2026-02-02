@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Income Manager - Minimal UI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>Income Manager</h1>
+        <p class="subtitle">Minimal client for register & login</p>
+      </header>
+
+      <section class="card">
+        <div class="row">
+          <label for="apiBase">API base URL</label>
+          <input id="apiBase" type="url" value="http://localhost:8080" />
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="register" type="button">Register</button>
+          <button class="tab" data-tab="login" type="button">Login</button>
+        </div>
+
+        <form id="register" class="panel active" autocomplete="off">
+          <div class="row">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" type="text" required />
+          </div>
+          <div class="row">
+            <label for="registerEmail">Email</label>
+            <input id="registerEmail" name="email" type="email" required />
+          </div>
+          <div class="row">
+            <label for="registerPassword">Password</label>
+            <input id="registerPassword" name="password" type="password" minlength="8" required />
+          </div>
+          <button class="primary" type="submit">Create account</button>
+        </form>
+
+        <form id="login" class="panel" autocomplete="off">
+          <div class="row">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" required />
+          </div>
+          <div class="row">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" name="password" type="password" minlength="8" required />
+          </div>
+          <button class="primary" type="submit">Sign in</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="row row-inline">
+          <h2>Session</h2>
+          <button id="clearToken" type="button">Clear token</button>
+        </div>
+        <pre id="output" aria-live="polite">Waiting for action...</pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
