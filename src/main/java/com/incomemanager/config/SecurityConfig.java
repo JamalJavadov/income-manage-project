@@ -1,6 +1,6 @@
 package com.incomemanager.config;
 
-import com.incomemanager.security.JwtAuthenticationFilter;
+import com.incomemanager.security.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
